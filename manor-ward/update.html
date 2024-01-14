@@ -212,6 +212,17 @@
           this.musicalNumbers[idx]['title'] = title
         }
       },
+      resetToDefaults() {
+        this.presiding = 'Bishop Jenkins';
+        this.chorister = 'Sister Scofield';
+        this.pianist = 'Sister Ah Mu';
+        this.openingPrayer = "";
+        this.closingPrayer = "";
+        this.speakers = [];
+        this.fastSunday = false;
+        this.musicalNumbers = [];
+        this.announcements = [];
+      },
       async authorize() {
         const url = "https://us-central1-ward-bulletin-410923.cloudfunctions.net/setBulletin?authorize";
         const ax = axios.create();
@@ -243,7 +254,7 @@
           this.musicalNumbers = data.musicalNumbers;
           this.announcements = data.announcements;
         } catch (err) {
-          this.noData = true;
+          
           console.error(err);
         }
       },
