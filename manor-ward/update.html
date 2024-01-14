@@ -1,0 +1,370 @@
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@3.4.10/dist/vuetify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+<script src="./hymns.js"></script>
+
+<div id="app">
+  <template v-if="authorized">
+    <div class="container">
+      <h1>Create agenda</h1>
+    
+      <!-- todo: constrain to minimum of this week, default to this week -->
+      <div class="itm">
+        <v-dialog>
+          <template v-slot:activator="{ props }">
+            <div class="gd-2">
+              <p>Meeting date: {{ formattedDate }}</p>
+              <v-btn color="green" v-bind="props" text="Select date"> </v-btn>
+            </div>
+          </template>
+    
+          <template v-slot:default="{ isActive }">
+            <v-card>
+              <v-date-picker v-model="date" show-adjacent-months :allowed-dates="allowedDates"></v-date-picker>
+    
+              <v-card-actions>
+                <v-btn
+                  text="Close"
+                  @click="isActive.value = false"
+                ></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+      </div>
+    
+      <div v-for="key in singleInputKeys" class="itm">
+        <v-text-field
+          v-model="this[key]"
+          :label="toSentence(key)"
+        >
+      </div>
+    
+      <v-switch label="Fast & testimony meeting" v-model="fastSunday" color="green" ></v-switch>
+    
+      <h2>Speakers</h2>
+      <v-btn color="green" class="add-btn" @click="speakers.push('')">Add speaker</v-btn>
+      <div v-for="speaker, idx in speakers" class="gd-2">
+        <div>
+          <v-text-field
+            v-model="speakers[idx]"
+            label="Name"
+          />
+        </div>
+        <v-btn color="red" @click="speakers.splice(idx, 1)">Remove</v-btn>
+      </div>
+    
+      <h2>Musical numbers</h2>
+      <v-btn color="green" class="add-btn" @click="musicalNumbers.push({})">Add Musical Number</v-btn>
+      <div v-for="hymn, idx in musicalNumbers" class="hymn-grid">
+        <div>
+          <v-text-field
+            v-model="musicalNumbers[idx]['number']"
+            label="Hymn #"
+            @blur="findHymnName(idx)"
+          />
+        </div>
+        <div>
+          <v-text-field
+            v-model="musicalNumbers[idx]['title']"
+            label="Title"
+          />
+        </div>
+        <v-btn color="red" @click="musicalNumbers.splice(idx, 1)">Remove</v-btn>
+      </div>
+    
+      <h2>Announcements</h2>
+      <v-btn color="green" class="add-btn" @click="announcements.push({})">Add announcement</v-btn>
+      <div v-for="ann, idx in announcements" class="announcement">
+        <div>
+          <v-text-field
+            v-model="announcements[idx]['title']"
+            label="Title"
+          />
+        </div>
+        <div>
+          <v-textarea
+            v-model="announcements[idx]['text']"
+            label="Description"
+          />
+        </div>
+        <v-btn color="red" class="w-40" @click="announcements.splice(idx, 1)">Remove</v-btn>
+      </div>
+    
+      <v-btn class="w-100" color="primary" @click="submit">Submit</v-btn>
+
+      <v-snackbar v-model="snackbar">
+        {{ snackbarText }}
+        <template v-slot:actions>
+          <v-btn
+            color="green"
+            variant="text"
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+
+    </div>
+  </template>
+
+  <template v-else>
+    <div class="auth-view">
+      <h1>Manor Ward Bulletin</h1>
+      <div class="auth-inputs">
+        <h2>Enter password</h2>
+        <v-text-field
+          v-model="password"
+          :rules="[rules.required]"
+          :messages="passwordMessages"
+          type="password"
+          label="Password"
+          counter
+          @click:append="showpass = !showpass"
+        ></v-text-field>
+        <v-btn color="primary" @click="authorize">Submit</v-btn>
+      </div>
+    </div>
+  </template>
+</div>
+
+<script>
+  const { createApp } = Vue;
+  const { createVuetify } = Vuetify;
+  const { DateTime } = luxon;
+  const allHymns = hymns;
+
+  const app = createApp({
+    data() {
+      return {
+        authorized: false,
+        showpass: false,
+        password: "",
+        passwordMessages: [],
+        rules: {
+          required: (value) => !!value || "Required.",
+        },
+        date: null, // set in created block so we can use computed
+        singleInputKeys: [
+          "presiding",
+          "chorister",
+          "pianist",
+          "openingPrayer",
+          "closingPrayer",
+        ],
+        presiding: "",
+        chorister: "",
+        pianist: "",
+        openingPrayer: "",
+        closingPrayer: "",
+        speakers: [],
+        fastSunday: false,
+        musicalNumbers: [],
+        announcements: [],
+        snackbar: false,
+        snackbarText: ""
+      };
+    },
+    created () {
+      this.date = new Date(this.nextSunday.toISO())
+    },
+    computed: {
+      formattedDate () {
+        return DateTime.fromJSDate(this.date).toFormat('MMM dd, yyyy');
+      },
+      nextSunday() {
+        const today = DateTime.local();
+        return today.plus({ days: 7 - today.weekday });
+      },
+      allowedDates() {
+        const dates = []
+        const max = this.nextSunday.plus({days: 180})
+        let dt = this.nextSunday
+        
+        while(dt < max) {
+          dates.push(dt.toFormat("yyyy-MM-dd"))
+          dt = dt.plus({ days: 7 })
+        }
+        return dates
+      }
+    },
+    watch: {
+      snackbar() {
+        if (this.snackbar) {
+          setTimeout(() => this.snackbar = false, 4000)
+        }
+      },
+      date() {
+        this.getBulletin()
+      }
+    },
+    methods: {
+      toSentence(str) {
+        return _.startCase(str);
+      },
+      findHymnName(idx) {
+        const number = Number(this.musicalNumbers[idx]['number'])
+        if (number) {
+          const title = allHymns[number] || ''
+          this.musicalNumbers[idx]['title'] = title
+        }
+      },
+      async authorize() {
+        const url = "https://us-central1-ward-bulletin-410923.cloudfunctions.net/setBulletin?authorize";
+        const ax = axios.create();
+        try {
+          const res = await ax.post(url, { token: this.password })
+          this.authorized = true
+        } catch(err) {
+          this.passwordMessages = ['Invalid password']
+        }
+      },
+      async getBulletin() {
+        // prettier-ignore
+        const url = "https://us-central1-ward-bulletin-410923.cloudfunctions.net/getBulletin/";
+        const fullUrl = url + "?date=" + DateTime.fromJSDate(this.date).toFormat("yyyyMMdd");
+
+        const ax = await axios.create({
+          baseURL: fullUrl,
+        });
+
+        try {
+          const { data } = await ax.get();
+          this.presiding = data.presiding;
+          this.chorister = data.chorister;
+          this.pianist = data.pianist;
+          this.openingPrayer = data.openingPrayer;
+          this.closingPrayer = data.closingPrayer;
+          this.speakers = data.speakers;
+          this.fastSunday = data.fastSunday;
+          this.musicalNumbers = data.musicalNumbers;
+          this.announcements = data.announcements;
+        } catch (err) {
+          this.noData = true;
+          console.error(err);
+        }
+      },
+      async submit () {
+        const payload = {
+          presiding: this.presiding,
+          chorister: this.chorister,
+          pianist: this.pianist,
+          openingPrayer: this.openingPrayer,
+          closingPrayer: this.closingPrayer,
+          musicalNumbers: this.musicalNumbers,
+          speakers: this.speakers,
+          announcements: this.announcements,
+          date: this.date.toISOString(),
+          fastSunday: this.fastSunday,
+          token: this.password
+        }
+
+        const url = "https://us-central1-ward-bulletin-410923.cloudfunctions.net/setBulletin";
+        const ax = axios.create();
+        try {
+          await ax.post(url, payload)
+          this.snackbar = true
+          this.snackbarText = 'Saved agenda successfully.'
+        } catch (err) {
+          console.error(err)
+          this.snackbar = true
+          this.snackbarText = 'Failed to submit. Try refreshing and logging in again.'
+        }
+      }
+    },
+  });
+
+  const vuetify = createVuetify();
+  app.use(vuetify);
+  app.mount("#app");
+</script>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Serif&display=swap");
+  @import url("https://cdn.jsdelivr.net/npm/vuetify@3.4.10/dist/vuetify.min.css");
+  @import url("https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css");
+  @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+    align-items: center;
+    width: 75%;
+    margin: 0 auto;
+  }
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    margin-top: 2rem;
+  }
+
+  .itm {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+
+  .add-btn {
+    min-width: 40%;
+    margin-bottom: 2rem;
+  }
+
+  .gd-2 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    width: 100%;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hymn-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    width: 100%;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .announcement {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .auth-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto 0;
+    height: 100%;
+  }
+
+  .auth-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 50%;
+  }
+
+  .w-40 {
+    width: 40%;
+  }
+
+  .w-100 {
+    width: 100%;
+  }
+
+</style>
