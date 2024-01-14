@@ -123,8 +123,9 @@
           this.musicalNumbers = data.musicalNumbers;
           this.announcements = data.announcements;
           this.fastSunday = data.fastSunday;
+          this.noData = false;
         } catch (err) {
-          // no need to log it honestly. Probably just a 404.
+          this.noData = true;
         }
       },
     },
