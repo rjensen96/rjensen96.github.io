@@ -124,8 +124,7 @@
           this.announcements = data.announcements;
           this.fastSunday = data.fastSunday;
         } catch (err) {
-          this.noData = true;
-          console.error(err);
+          // no need to log it honestly. Probably just a 404.
         }
       },
     },

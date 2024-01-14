@@ -170,6 +170,7 @@
     },
     created () {
       this.date = new Date(this.nextSunday.toISO())
+      this.resetToDefaults()
     },
     computed: {
       formattedDate () {
@@ -254,8 +255,7 @@
           this.musicalNumbers = data.musicalNumbers;
           this.announcements = data.announcements;
         } catch (err) {
-          
-          console.error(err);
+          this.resetToDefaults()
         }
       },
       async submit () {
@@ -280,7 +280,6 @@
           this.snackbar = true
           this.snackbarText = 'Saved agenda successfully.'
         } catch (err) {
-          console.error(err)
           this.snackbar = true
           this.snackbarText = 'Failed to submit. Try refreshing and logging in again.'
         }
