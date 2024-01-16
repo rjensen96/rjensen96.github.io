@@ -114,11 +114,11 @@
 
         try {
           const { data } = await ax.get();
-          this.presiding = data.presiding;
-          this.chorister = data.chorister;
-          this.pianist = data.pianist;
-          this.openingPrayer = data.openingPrayer;
-          this.closingPrayer = data.closingPrayer;
+          this.presiding = data.presiding || defaults.presiding;
+          this.chorister = data.chorister || defaults.chorister;
+          this.pianist = data.pianist || "TBA";
+          this.openingPrayer = data.openingPrayer || "TBA";
+          this.closingPrayer = data.closingPrayer || "TBA";
           this.speakers = data.speakers;
           this.musicalNumbers = data.musicalNumbers;
           this.announcements = data.announcements;
