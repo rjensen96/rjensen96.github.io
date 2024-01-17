@@ -27,9 +27,8 @@
               </template>
         
               <template v-slot:default="{ isActive }">
-                <v-card>
+                <v-card class="date-card">
                   <v-date-picker v-model="date" show-adjacent-months :allowed-dates="allowedDates"></v-date-picker>
-        
                   <v-card-actions>
                     <v-btn
                       text="Close"
@@ -248,7 +247,7 @@
       allowedDates() {
         const dates = []
         const max = this.nextSunday.plus({days: 180})
-        let dt = this.nextSunday
+        let dt = this.nextSunday.minus({days: (7 * 26)}) // 26 weeks back
         
         while(dt < max) {
           dates.push(dt.toFormat("yyyy-MM-dd"))
@@ -434,6 +433,11 @@
 
   .single-wrapper {
     max-width: 75%;
+  }
+
+  .date-card {
+    max-width: fit-content;
+    margin: auto;
   }
 
   h1 {

@@ -1,6 +1,7 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./defaults.js"></script>
 
 <div id="app" class="agenda">
   <h1>Manor Ward Sacrament Meeting</h1>
@@ -119,10 +120,12 @@
           this.pianist = data.pianist || "TBA";
           this.openingPrayer = data.openingPrayer || "TBA";
           this.closingPrayer = data.closingPrayer || "TBA";
-          this.speakers = data.speakers;
-          this.musicalNumbers = data.musicalNumbers;
-          this.announcements = data.announcements;
-          this.fastSunday = data.fastSunday;
+          this.speakers = data.speakers || [];
+          this.musicalNumbers = data.musicalNumbers || [];
+          this.announcements = data.announcements || [];
+          this.fastSunday = data.fastSunday || false;
+          // prettier-ignore
+          this.date = DateTime.fromFormat(queryDate, "yyyyMMdd").toFormat("MMMM d, yyyy");
           this.noData = false;
         } catch (err) {
           this.noData = true;
