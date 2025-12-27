@@ -3,26 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Sketch</title>
-
+    <title>Cloud Lift Generator</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
-
-    <script src="libraries/p5.min.js"></script>
-    <script src="libraries/p5.sound.min.js"></script>
+    <script src="script.js"></script>
   </head>
 
   <body>
     <h1>Greene & Greene Cloud Lift Generator</h1>
-    <h2>Create custom cloud lift SVGs
-      <p>
-        <label for="radius">Radius</label>
-        <input type="number" id="radius" placeholder="Radius (in)" min="0" max="10">
-        <label for="angle">Angle</label>
-        <input type="number" id="angle" placeholder="Angle (degrees)" min="0" max="90">
-        <label for="height">Height</label>
-        <input type="number" id="height" placeholder="Height (in)" min="0", max="10">
-      </p>
-    <script src="sketch.js"></script>
+    <h2>Create custom cloud lift SVGs</h2>
+    <p>
+      <label for="radius">Radius</label>
+      <input
+        type="number"
+        id="radius"
+        placeholder="Radius (in)"
+        min="0"
+        max="10"
+      />
+      <label for="angle">Angle</label>
+      <input
+        type="number"
+        id="angle"
+        placeholder="Angle (degrees)"
+        min="0"
+        max="90"
+      />
+      <label for="height">Height</label>
+      <input
+        type="number"
+        id="height"
+        placeholder="Height (in)"
+        min="0"
+        max="10"
+      />
+    </p>
+    <div id="curve"></div>
   </body>
 </html>
