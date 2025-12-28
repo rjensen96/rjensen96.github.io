@@ -4,7 +4,7 @@ window.onload = () => {
 };
 
 function prefill() {
-  document.getElementById("radius").value = 100;
+  document.getElementById("radius").value = 130;
   document.getElementById("angle").value = 65;
   document.getElementById("height").value = 75;
 }
@@ -24,11 +24,13 @@ function render() {
 }
 
 function getPoint(x, y) {
+  const roundX = parseFloat(x.toFixed(3));
+  const roundY = parseFloat(y.toFixed(3));
   return {
-    x,
-    y,
+    x: roundX,
+    y: roundY,
     str() {
-      return `${x} ${y}`;
+      return `${roundX} ${roundY}`;
     },
   };
 }
@@ -50,14 +52,15 @@ function getSvg(angle, height, radius) {
   const baseX = 50;
   const baseY = 200;
   const runLen = 100;
+  const halfRadius = radius / 2;
 
   const p1 = getPoint(baseX, baseY);
   const p2 = getPoint(baseX + runLen, baseY);
-  const p3 = getPointOnAngle(p2.x + radius, p2.y, angle, height);
+  const p3 = getPointOnAngle(p2.x + halfRadius, p2.y, angle, height);
   const p4 = getPoint(p3.x + runLen, p3.y);
 
-  const controlP2 = getPoint(p2.x + radius, p2.y);
-  const controlP3 = getPoint(p3.x - radius, p3.y);
+  const controlP2 = getPoint(p2.x + halfRadius, p2.y);
+  const controlP3 = getPoint(p3.x - halfRadius, p3.y);
 
   return `
     <svg
