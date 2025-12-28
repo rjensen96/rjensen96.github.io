@@ -4,9 +4,9 @@ window.onload = () => {
 };
 
 function prefill() {
-  document.getElementById("radius").value = 60;
-  document.getElementById("angle").value = 40;
-  document.getElementById("height").value = 100;
+  document.getElementById("radius").value = 100;
+  document.getElementById("angle").value = 65;
+  document.getElementById("height").value = 75;
 }
 
 function getParams() {
@@ -33,33 +33,37 @@ function getPoint(x, y) {
   };
 }
 
-function getPointOnAngle(fromX, fromY, angle, height) {
+function getXRunOfRadius(angle, height) {
   const angleInRadians = (angle * Math.PI) / 180;
-  const runX = height / Math.tan(angleInRadians);
-  return getPoint(fromX + runX, fromY - height);
+  return height * Math.sin(angleInRadians);
+}
+
+function getPointOnAngle(fromX, fromY, angle, height) {
+  const invertedAngle = Math.abs(90 - angle);
+  const angleInRadians = (invertedAngle * Math.PI) / 180;
+  const runX = height * Math.tan(angleInRadians);
+  const runXOfRadius = getXRunOfRadius(invertedAngle, height);
+  return getPoint(fromX + runX + runXOfRadius, fromY - height);
 }
 
 function getSvg(angle, height, radius) {
   const baseX = 50;
-  const baseY = 150;
+  const baseY = 250;
   const runLen = 150;
 
   const p1 = getPoint(baseX, baseY);
   const p2 = getPoint(baseX + runLen, baseY);
-  const p3 = getPointOnAngle(p2.x, p2.y, angle, height);
+  const p3 = getPointOnAngle(p2.x + radius, p2.y, angle, height);
   const p4 = getPoint(p3.x + runLen, p3.y);
-
-  console.log("p2", p2.str());
-  console.log("p3", p3.str());
 
   const controlP2 = getPoint(p2.x + radius, p2.y);
   const controlP3 = getPoint(p3.x - radius, p3.y);
 
   return `
     <svg
-      width="500"
-      height="500"
-      viewBox="0 0 500 500"
+      width="600"
+      height="600"
+      viewBox="0 0 600 600"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
