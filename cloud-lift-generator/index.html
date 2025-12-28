@@ -11,35 +11,46 @@
   <body>
     <h1>Greene & Greene Cloud Lift Generator</h1>
     <h2>Create custom cloud lift SVGs</h2>
-    <p>
-      <label for="radius">Radius</label>
-      <input
-        type="number"
-        id="radius"
-        placeholder="Radius (in)"
-        min="0"
-        max="10"
-        oninput="render()"
-      />
-      <label for="angle">Angle</label>
-      <input
-        type="number"
-        id="angle"
-        placeholder="Angle (degrees)"
-        min="0"
-        max="90"
-        oninput="render()"
-      />
-      <label for="height">Height</label>
-      <input
-        type="number"
-        id="height"
-        placeholder="Height (in)"
-        min="0"
-        max="10"
-        oninput="render()"
-      />
-    </p>
-    <div id="curve"></div>
+    <div id="flex-wrapper">
+      <div id="controls">
+        <div>
+          <label for="radius">Radius</label>
+          <input
+            type="number"
+            id="radius"
+            placeholder="Radius (in)"
+            min="0"
+            max="10"
+            oninput="render()"
+          />
+        </div>
+        <div>
+          <label for="angle">Angle</label>
+          <input
+            type="number"
+            id="angle"
+            placeholder="Angle (degrees)"
+            min="0"
+            max="90"
+            oninput="render()"
+          />
+        </div>
+        <div>
+          <label for="height">Height</label>
+          <input
+            type="number"
+            id="height"
+            placeholder="Height (in)"
+            min="0"
+            max="10"
+            oninput="render()"
+          />
+        </div>
+      </div>
+      <div id="curve"></div>
+    </div>
+    <div id="button-container">
+      <button onclick="downloadSvg()">Download SVG</button>
+    </div>
   </body>
 </html>

@@ -62,8 +62,8 @@ function getSvg(angle, height, radius) {
   return `
     <svg
       width="600"
-      height="600"
-      viewBox="0 0 600 600"
+      height="260"
+      viewBox="0 0 600 260"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -78,4 +78,18 @@ function getSvg(angle, height, radius) {
       />
     </svg>
   `;
+}
+
+function downloadSvg() {
+  const { angle, height, radius } = getParams();
+  const svgContent = getSvg(angle, height, radius);
+  const blob = new Blob([svgContent], { type: "image/svg+xml" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "cloud-lift.svg";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

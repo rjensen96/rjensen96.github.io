@@ -87,7 +87,6 @@ textarea {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  margin-bottom: 1rem;
   max-width: 200px;
 }
 
@@ -139,4 +138,27 @@ button:hover {
 button:focus {
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+#flex-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 200px;
+}
+
+#button-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+#curve {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  margin-left: 1rem;
 }
