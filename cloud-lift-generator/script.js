@@ -48,8 +48,8 @@ function getPointOnAngle(fromX, fromY, angle, height) {
 
 function getSvg(angle, height, radius) {
   const baseX = 50;
-  const baseY = 250;
-  const runLen = 150;
+  const baseY = 200;
+  const runLen = 100;
 
   const p1 = getPoint(baseX, baseY);
   const p2 = getPoint(baseX + runLen, baseY);
