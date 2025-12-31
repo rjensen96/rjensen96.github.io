@@ -4,9 +4,9 @@ window.onload = () => {
 };
 
 function prefill() {
-  document.getElementById("radius").value = 130;
+  document.getElementById("radius").value = 1.5;
   document.getElementById("angle").value = 65;
-  document.getElementById("height").value = 75;
+  document.getElementById("height").value = 1;
 }
 
 function getParams() {
@@ -19,6 +19,7 @@ function getParams() {
 function render() {
   const { angle, height, radius } = getParams();
   const svg = getSvg(angle, height, radius);
+  console.log("svg", svg);
   const curve = document.getElementById("curve");
   curve.innerHTML = svg;
 }
@@ -27,8 +28,8 @@ function getPoint(x, y) {
   const roundX = parseFloat(x.toFixed(3));
   const roundY = parseFloat(y.toFixed(3));
   return {
-    x: roundX,
-    y: roundY,
+    x,
+    y,
     str() {
       return `${roundX} ${roundY}`;
     },
@@ -49,9 +50,9 @@ function getPointOnAngle(fromX, fromY, angle, height) {
 }
 
 function getSvg(angle, height, radius) {
-  const baseX = 50;
-  const baseY = 200;
-  const runLen = 100;
+  const baseX = 1.0;
+  const baseY = 2.5;
+  const runLen = 1.0;
   const halfRadius = radius / 2;
 
   const p1 = getPoint(baseX, baseY);
@@ -64,9 +65,9 @@ function getSvg(angle, height, radius) {
 
   return `
     <svg
-      width="600"
-      height="260"
-      viewBox="0 0 600 260"
+      width="6in"
+      height="3in"
+      viewBox="0 0 6 3.25"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -77,7 +78,7 @@ function getSvg(angle, height, radius) {
           "
         fill="none"
         stroke="black"
-        stroke-width="2"
+        stroke-width="0.02"
       />
     </svg>
   `;
@@ -95,4 +96,31 @@ function downloadSvg() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+// doesn't work yet.
+function copySvg() {
+  const { angle, height, radius } = getParams();
+  const svgContent = getSvg(angle, height, radius);
+
+  // Create a blob for the image/svg+xml type
+  const blob = new Blob([svgContent], { type: "image/svg+xml" });
+
+  // Create a blob for the text/plain type
+  const textBlob = new Blob([svgContent], { type: "text/plain" });
+
+  const item = new ClipboardItem({
+    "image/svg+xml": blob,
+    "text/plain": textBlob,
+  });
+
+  navigator.clipboard.write([item]).then(
+    () => {
+      alert("SVG copied to clipboard!");
+    },
+    (err) => {
+      console.error("Failed to copy SVG: ", err);
+      alert("Failed to copy SVG. See console for details.");
+    }
+  );
 }
