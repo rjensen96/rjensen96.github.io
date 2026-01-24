@@ -78,7 +78,7 @@ function getSvg(angle, height, radius) {
           "
         fill="none"
         stroke="black"
-        stroke-width="0.02"
+        stroke-width="0.025"
       />
     </svg>
   `;
