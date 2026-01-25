@@ -98,9 +98,11 @@ Here's everything I can remember:
 
 - Change vent solenoid
 - Change purge solenoid
+- Replace all 4 shocks
 - New headlights and wiper blades
 - Oil change
 - Engine air filter
+- Bondo over some dents
 - Check fuses and replace a couple
 - Deep clean everything. It was a spice delivery van for 15 years and caked in cumin.
 - Replace bed liner
@@ -115,7 +117,7 @@ Here's everything I can remember:
 - Fix the seatbelt clicker when it flew apart
 - Replace AC vacuum hose
 - Replace battery
-- Strip off as much old paint as possible
+- Strip off as much old paint as possible, spray some primer
 - Wrap it! HUGE shoutout to [@technician_gus] for helping me out
 - Black out rims
 
@@ -130,4 +132,66 @@ Here's everything I can remember:
 
 Plywood and lumberyard runs in this thing are an absolute dream. Seriously so easy. I also drove it halfway across the country to pick up some machines. Had an amazing time sleeping in the back of it at a truck stop in New Mexico. I'm keeping this thing forever!
 
+## Standup paddle board
+
+_Don't get your hopes up for this one_
+
+Yes, I did make a paddle baord, BUT... I made a ton of mistakes, and the result was unfortunately a failure. I did take it out on the lake once, however, and it floated. I learned a lot from this one and I would be really excited to try this again with a little more experience.
+
+I based my design loosely on [The Wombat] from Vintage Board Co.
+
+### The innards
+
+Wooden paddle boards are built with horizontal ribs and long vertical stringers. These are stitched to the bottom of the board and glued in with epoxy.
+
+<div class="imagegrid">
+  <image src="./assets/sup/01.jpeg" />
+  <image src="./assets/sup/02.jpeg" />
+</div>
+
+Next, the sides are bent around the ribs and also stitched and glued with epoxy. At this point, the hull starts to take shape and you can believe that this thing might actually become a boat.
+
+<image src="./assets/sup/03.jpeg" />
+
+## Glassing
+
+Boards have three really critical structural requirements:
+
+1. Waterproof
+2. Airtight
+3. Won't collapse / not easily destroyed
+
+Coating the thing in fiberglass and epoxy theoretically fulfills these requirements. It's a very common step for making wooden watercraft usable.
+
+Once both sides are glassed, I added the finishing touches with rigging, a handle, and grippy strips to make it into a real paddle board.
+
+<div class="imagegrid">
+  <image src="./assets/sup/04.jpeg" />
+  <image src="./assets/sup/05.jpeg" />
+</div>
+
+## Result
+
+Like I said, this thing did float, so... mission accomplished?
+
+<div class="imagegrid">
+  <image src="./assets/sup/06.jpeg"  width="400"/>
+  <image src="./assets/sup/07.jpeg"  width="200"/>
+</div>
+
+Unfortunately, not mission accomplished. The mistakes that doomed this project:
+
+**Choice of materials**
+My plywood was twice the correct thickness (1/4" instead of 1/8"), and to top it off, I used crappy sheathing grade plywood from the Big Orange store instead of proper plywood. That stuff is insanely heavy and full of voids.
+
+I estimate that my poor choice of plywood tripled the weight of the board. It weighed a whopping 82 pounds, which is just too heavy. Horrible to haul that around and drags around the water like it's pulling an anchor.
+
+**Choice of fiberglass**
+The fiberglass I bought was the wrong stuff for the job. Too thick and heavy overall, but also had too much space between the weave. I should have used surfboard fiberglass (I think it's called e-glass?) but I just grabbed some stuff from Bezos' place that seemed like it would work. Well, it didn't. Should have done more research.
+
+Because of my bad fiberglass, I had to use way more epoxy on the outside than I would have otherwise, and even then I probably didn't use enough because large patches didn't adhere properly to the board. So it failed to meet the critical requirements of the boat: not waterproof, no structural benefit. Just a waste of material.
+
+So, since it was too heavy for me to reasonably lift and since it never recovered from getting just a little bit of water in it on its maiden voyage, I eventually chopped the thing up and tossed it. Not worth saving. I do think the experience of building the thing was worth it though, and I really do want to try again with proper 1/8" birch plywood and surfboard fiberglass. Maybe I can even get my brother to laser cut the components, that would be even better!
+
+[The Wombat]: https://www.vintageboardco.com.au/products/wombat-diy-plywood-paddle-board-plans-full-size-tempates
 [@technician_gus]: https://www.instagram.com/technician_gus/
