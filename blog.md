@@ -1,6 +1,6 @@
 # Projects, but not software ones
 
-Here you'll find stuff I made that does not involve code. If you want code... go look at my actual Github 🙃
+<h2 id="subtitle">Here you'll find stuff I made without writing code. If you want code... go look at my actual Github 🙃</h2>
 
 ## Coffee table in sapele
 

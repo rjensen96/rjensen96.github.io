@@ -161,6 +161,11 @@ table tr:nth-child(2n) {
   background-color: #f6f8fa;
 }
 
+#subtitle {
+  margin-top: 0px;
+  border-bottom: none;
+}
+
 /* Horizontal rule */
 hr {
   height: 0.25em;
