@@ -34,7 +34,7 @@ h2 {
   font-size: 1.5em;
   padding-bottom: 0.3em;
   border-bottom: 1px solid #eaecef;
-  margin-top: 65px;
+  margin-top: 50px;
 }
 
 h3 {
@@ -124,6 +124,12 @@ blockquote p {
 img {
   max-width: 100%;
   box-sizing: border-box;
+}
+
+.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Tables */
